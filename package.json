@@ -1,0 +1,25 @@
+{
+  "name": "sdet_interview_incubyte",
+  "version": "1.0.0",
+  "description": "**Objective**: Test the sign up flow.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sp4rkiop/SDET_Interview_Incubyte.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sp4rkiop/SDET_Interview_Incubyte/issues"
+  },
+  "homepage": "https://github.com/sp4rkiop/SDET_Interview_Incubyte#readme",
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^22.2.0",
+    "@cypress/webpack-preprocessor": "^6.0.4",
+    "cypress": "^14.5.1"
+  }
+}
