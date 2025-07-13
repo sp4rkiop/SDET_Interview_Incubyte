@@ -17,6 +17,7 @@ When('I enter invalid credentials', () => {
 });
 
 Then('I should be logged in successfully', () => {
+    cy.url().should('include', '/customer/account');
     cy.get('body').then(($body) => {
         if ($body.text().includes('My Account')) {
             cy.log('Login successful: Account details found');
@@ -27,11 +28,7 @@ Then('I should be logged in successfully', () => {
 });
 
 Then('I should see incorrect account sign-in request', () => {
-    cy.get('body').then(($body) => {
-        if ($body.text().includes('The account sign-in was incorrect')) {
-            cy.log('Login failed: Invalid credentials');
-        } else {
-            throw new Error('Login did not complete successfully.');
-        }
-    });
+    cy.get('.message-error')
+        .should('be.visible')
+        .and('contain', 'The account sign-in was incorrect');
 });

@@ -31,21 +31,13 @@ When('I fill in the signup form with existing data', () => {
 });
 
 Then('I should see account creation success message', () => {
-    cy.get('body').then(($body) => {
-        if ($body.text().includes('Thank you for registering with Main Website Store.')) {
-            cy.log('Signup successful: Account successfully created');
-        } else {
-            throw new Error('Signup failed: Neither success nor "already exists" message found');
-        }
-    });
+    cy.url().should('include', '/customer/account');
+    cy.contains('Thank you for registering').should('be.visible');
+
 });
 
 Then('I should see account exists error', () => {
-    cy.get('body').then(($body) => {
-        if ($body.text().includes('There is already an account with this email address')) {
-            cy.log('Signup failed: Account already exists');
-        } else {
-            throw new Error('Signup failed: Neither success nor "already exists" message found');
-        }
-    });
+    cy.get('.message-error')
+        .should('be.visible')
+        .and('contain', 'There is already an account');
 });
