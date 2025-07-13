@@ -1,6 +1,5 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from '../../pages/LoginPage';
-import { email, password } from '../../support/constants';
 const login = new LoginPage();
 
 Given('I visit the login page', () => {
@@ -8,17 +7,30 @@ Given('I visit the login page', () => {
 });
 
 When('I enter valid credentials', () => {
-    login.login(email, password);
+    cy.fixture('testuser.json').then((user) => {
+        login.login(user.email, user.password);
+    });
+});
+
+When('I enter invalid credentials', () => {
+    login.login("abhishek.testINVALID@email.com", "Password123!");
 });
 
 Then('I should be logged in successfully', () => {
     cy.get('body').then(($body) => {
-        if ($body.find("span.logged-in").length > 0) {
-            cy.get("span.logged-in")
-                .should("contain.text", "Welcome")
-                .then(() => cy.log('Login successful: "Welcome" message found'));
+        if ($body.text().includes('My Account')) {
+            cy.log('Login successful: Account details found');
         } else {
-            cy.log('Login failed: "Welcome" message not found');
+            throw new Error('Login did not complete successfully.');
+        }
+    });
+});
+
+Then('I should see incorrect account sign-in request', () => {
+    cy.get('body').then(($body) => {
+        if ($body.text().includes('The account sign-in was incorrect')) {
+            cy.log('Login failed: Invalid credentials');
+        } else {
             throw new Error('Login did not complete successfully.');
         }
     });
